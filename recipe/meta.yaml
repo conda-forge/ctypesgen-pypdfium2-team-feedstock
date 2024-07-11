@@ -8,8 +8,6 @@ package:
 source:
   url: https://github.com/pypdfium2-team/ctypesgen/archive/ebd495b1733b60132151154d6358fd1eb336a36a.tar.gz
   sha256: e1598e7be8892427f1ab2e5dba20a58418106676183455078330d2fd018ee411
-  patches:
-    - gcc.patch
 
 build:
   entry_points:
@@ -30,7 +28,7 @@ requirements:
 
 test:
   requires:
-    - gcc  # [linux]
+    - {{ compiler('c') }}
     - pip
     - pytest  # [linux]
   source_files:  # [linux]
