@@ -1,50 +1,27 @@
-From df4d9ebeeeee8dc236531fca5d614cd1b1465a3a Mon Sep 17 00:00:00 2001
+From 069d589653bb82bdbe24423a03dbf0b15cc75743 Mon Sep 17 00:00:00 2001
 From: Jan Janssen <jan-janssen@users.noreply.github.com>
-Date: Thu, 11 Jul 2024 14:14:47 +0200
-Subject: [PATCH] Update ctypesgentest.py
+Date: Thu, 11 Jul 2024 17:12:37 +0200
+Subject: [PATCH] Patch gcc
 
 ---
- ctypesgen/options.py   | 3 ++-
- tests/ctypesgentest.py | 6 +++---
- 2 file changed, 5 insertions(+), 4 deletions(-)
+ src/ctypesgen/__main__.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/ctypesgentest.py b/tests/ctypesgentest.py
-index a567e2b4..efd21350 100644
---- a/tests/ctypesgentest.py
-+++ b/tests/ctypesgentest.py
-@@ -206,11 +206,11 @@ def cleanup_common():
- 
- 
- def _compile_common(common_lib):
--    subprocess.run(["gcc", "-c", f"{COMMON_DIR}/a.c", "-o", f"{COMMON_DIR}/a.o"])
--    subprocess.run(["gcc", "-c", f"{COMMON_DIR}/b.c", "-o", f"{COMMON_DIR}/b.o"])
-+    subprocess.run([os.environ["CC"], "-c", f"{COMMON_DIR}/a.c", "-o", f"{COMMON_DIR}/a.o"])
-+    subprocess.run([os.environ["CC"], "-c", f"{COMMON_DIR}/b.c", "-o", f"{COMMON_DIR}/b.o"])
-     subprocess.run(
-         [
--            "gcc",
-+            os.environ["CC"],
-             "-shared",
-             "-o",
-             f"{COMMON_DIR}/{common_lib}",
-diff --git a/ctypesgen/options.py b/ctypesgen/options.py
-index 2afe53e0..35482a73 100755
---- a/ctypesgen/options.py
-+++ b/ctypesgen/options.py
-@@ -7,6 +7,7 @@
- """
- 
- import optparse
+diff --git a/src/ctypesgen/__main__.py b/src/ctypesgen/__main__.py
+index d2c8c20..a4d6b7b 100644
+--- a/src/ctypesgen/__main__.py
++++ b/src/ctypesgen/__main__.py
+@@ -1,3 +1,4 @@
 +import os
- import copy
- 
- default_values = {
-@@ -15,7 +16,7 @@
-     "include_search_paths": [],
-     "compile_libdirs": [],
-     "runtime_libdirs": [],
--    "cpp": "gcc -E",
-+    "cpp": os.environ["CC"] + " -E",
-     "allow_gnu_c": False,
-     "cpp_defines": [],
-     "cpp_undefines": [],
+ import re
+ import sys
+ import shlex
+@@ -90,6 +91,8 @@ def main_impl(args, cmd_str):
+     if args.cpp:
+         assert shutil.which(args.cpp[0]), f"Given pre-processor {args.cpp[0]!r} is not available."
+     else:
++        if "CC" in os.environ:
++            args.cpp = [os.environ["CC"], "-E"]
+         if shutil.which("gcc"):
+             args.cpp = ["gcc", "-E"]
+         elif shutil.which("cpp"):
