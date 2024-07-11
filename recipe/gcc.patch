@@ -4,8 +4,9 @@ Date: Thu, 11 Jul 2024 17:12:37 +0200
 Subject: [PATCH] Patch gcc
 
 ---
+ tests/conftest.py         | 6 +++---
  src/ctypesgen/__main__.py | 3 +++
- 1 file changed, 3 insertions(+)
+ 2 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/src/ctypesgen/__main__.py b/src/ctypesgen/__main__.py
 index d2c8c20..a4d6b7b 100644
@@ -25,3 +26,20 @@ index d2c8c20..a4d6b7b 100644
          if shutil.which("gcc"):
              args.cpp = ["gcc", "-E"]
          elif shutil.which("cpp"):
+diff --git a/tests/conftest.py b/tests/conftest.py
+index c77ca3a..44a4f1d 100644
+--- a/tests/conftest.py
++++ b/tests/conftest.py
+@@ -130,9 +130,9 @@ def _create_common_files():
+ 
+ 
+ def _compile_common(common_lib):
+-    subprocess.run(["gcc", "-c", COMMON_DIR/"a.c", "-o", COMMON_DIR/"a.o"])
+-    subprocess.run(["gcc", "-c", COMMON_DIR/"b.c", "-o", COMMON_DIR/"b.o"])
+-    subprocess.run(["gcc", "-shared", "-o", COMMON_DIR/common_lib, COMMON_DIR/"a.o", COMMON_DIR/"b.o"])
++    subprocess.run([os.environ["CPP"], "-c", COMMON_DIR/"a.c", "-o", COMMON_DIR/"a.o"])
++    subprocess.run([os.environ["CPP"], "-c", COMMON_DIR/"b.c", "-o", COMMON_DIR/"b.o"])
++    subprocess.run([os.environ["CPP"], "-shared", "-o", COMMON_DIR/common_lib, COMMON_DIR/"a.o", COMMON_DIR/"b.o"])
+ 
+ 
+ def _generate_with_common(file_name, shared):
