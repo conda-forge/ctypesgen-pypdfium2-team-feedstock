@@ -22,8 +22,8 @@ index d2c8c20..a4d6b7b 100644
          assert shutil.which(args.cpp[0]), f"Given pre-processor {args.cpp[0]!r} is not available."
      else:
 -        if shutil.which("gcc"):
-+        if "CXX" in os.environ:
-+            args.cpp = [os.environ["CXX"], "-E"]
++        if "CC" in os.environ:
++            args.cpp = [os.environ["CC"], "-E"]
 +        elif shutil.which("gcc"):
              args.cpp = ["gcc", "-E"]
          elif shutil.which("cpp"):
@@ -36,7 +36,7 @@ index c77ca3a..3c92007 100644
  
  CLEANUP_OK = bool(int(os.environ.get("CLEANUP_OK", "1")))
 -MAIN_CPP = os.environ.get("CPP", None)
-+MAIN_CPP = os.environ.get("CXX")
++MAIN_CPP = os.environ.get("CC")
  
  
  def _remove_tmpdir():
@@ -47,9 +47,9 @@ index c77ca3a..3c92007 100644
 -    subprocess.run(["gcc", "-c", COMMON_DIR/"a.c", "-o", COMMON_DIR/"a.o"])
 -    subprocess.run(["gcc", "-c", COMMON_DIR/"b.c", "-o", COMMON_DIR/"b.o"])
 -    subprocess.run(["gcc", "-shared", "-o", COMMON_DIR/common_lib, COMMON_DIR/"a.o", COMMON_DIR/"b.o"])
-+    subprocess.run([os.environ.get("CXX"), "-c", COMMON_DIR/"a.c", "-o", COMMON_DIR/"a.o"])
-+    subprocess.run([os.environ.get("CXX"), "-c", COMMON_DIR/"b.c", "-o", COMMON_DIR/"b.o"])
-+    subprocess.run([os.environ.get("CXX"), "-shared", "-o", COMMON_DIR/common_lib, COMMON_DIR/"a.o", COMMON_DIR/"b.o"])
++    subprocess.run([os.environ.get("CC"), "-c", COMMON_DIR/"a.c", "-o", COMMON_DIR/"a.o"])
++    subprocess.run([os.environ.get("CC"), "-c", COMMON_DIR/"b.c", "-o", COMMON_DIR/"b.o"])
++    subprocess.run([os.environ.get("CC"), "-shared", "-o", COMMON_DIR/common_lib, COMMON_DIR/"a.o", COMMON_DIR/"b.o"])
  
  
  def _generate_with_common(file_name, shared):
