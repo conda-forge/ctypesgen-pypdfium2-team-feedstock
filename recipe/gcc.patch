@@ -20,8 +20,8 @@ index d2c8c20..a4d6b7b 100644
      if args.cpp:
          assert shutil.which(args.cpp[0]), f"Given pre-processor {args.cpp[0]!r} is not available."
      else:
-+        if "CC" in os.environ:
-+            args.cpp = [os.environ["CC"], "-E"]
++        if "CXX" in os.environ:
++            args.cpp = [os.environ["CXX"], "-E"]
          if shutil.which("gcc"):
              args.cpp = ["gcc", "-E"]
          elif shutil.which("cpp"):
