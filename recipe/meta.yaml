@@ -30,7 +30,7 @@ requirements:
 
 test:
   requires:
-    - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
     - pip
     - pytest  # [linux]
   source_files:  # [linux]
