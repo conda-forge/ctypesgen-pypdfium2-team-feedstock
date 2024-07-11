@@ -5,8 +5,8 @@ Subject: [PATCH] Patch gcc
 
 ---
  tests/conftest.py         | 8 ++++----
- src/ctypesgen/__main__.py | 3 +++
- 2 file changed, 6 insertions(+), 3 deletions(-)
+ src/ctypesgen/__main__.py | 4 +++-
+ 2 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/src/ctypesgen/__main__.py b/src/ctypesgen/__main__.py
 index d2c8c20..a4d6b7b 100644
@@ -28,9 +28,18 @@ index d2c8c20..a4d6b7b 100644
              args.cpp = ["gcc", "-E"]
          elif shutil.which("cpp"):
 diff --git a/tests/conftest.py b/tests/conftest.py
-index c77ca3a..44a4f1d 100644
+index c77ca3a..3c92007 100644
 --- a/tests/conftest.py
 +++ b/tests/conftest.py
+@@ -17,7 +17,7 @@
+ TMP_DIR = TEST_DIR/"tmp"
+ 
+ CLEANUP_OK = bool(int(os.environ.get("CLEANUP_OK", "1")))
+-MAIN_CPP = os.environ.get("CPP", None)
++MAIN_CPP = os.environ.get("CXX")
+ 
+ 
+ def _remove_tmpdir():
 @@ -130,9 +130,9 @@ def _create_common_files():
  
  
@@ -38,9 +47,9 @@ index c77ca3a..44a4f1d 100644
 -    subprocess.run(["gcc", "-c", COMMON_DIR/"a.c", "-o", COMMON_DIR/"a.o"])
 -    subprocess.run(["gcc", "-c", COMMON_DIR/"b.c", "-o", COMMON_DIR/"b.o"])
 -    subprocess.run(["gcc", "-shared", "-o", COMMON_DIR/common_lib, COMMON_DIR/"a.o", COMMON_DIR/"b.o"])
-+    subprocess.run([os.environ["CPP"], "-c", COMMON_DIR/"a.c", "-o", COMMON_DIR/"a.o"])
-+    subprocess.run([os.environ["CPP"], "-c", COMMON_DIR/"b.c", "-o", COMMON_DIR/"b.o"])
-+    subprocess.run([os.environ["CPP"], "-shared", "-o", COMMON_DIR/common_lib, COMMON_DIR/"a.o", COMMON_DIR/"b.o"])
++    subprocess.run([os.environ.get("CXX"), "-c", COMMON_DIR/"a.c", "-o", COMMON_DIR/"a.o"])
++    subprocess.run([os.environ.get("CXX"), "-c", COMMON_DIR/"b.c", "-o", COMMON_DIR/"b.o"])
++    subprocess.run([os.environ.get("CXX"), "-shared", "-o", COMMON_DIR/common_lib, COMMON_DIR/"a.o", COMMON_DIR/"b.o"])
  
  
  def _generate_with_common(file_name, shared):
