@@ -40,7 +40,7 @@ test:
     - python -m pip check
     - python -m pip show ctypesgen
     # run test suite (on linux only)
-    - python -m pytest tests/testsuite.py  # [linux]
+    - CPP=${CXX} python -m pytest tests/testsuite.py  # [linux]
     # check entry points
     - ctypesgen --help
 
