@@ -4,9 +4,9 @@ Date: Thu, 11 Jul 2024 17:12:37 +0200
 Subject: [PATCH] Patch gcc
 
 ---
- tests/conftest.py         | 8 ++++----
+ tests/conftest.py         | 6 +++---
  src/ctypesgen/__main__.py | 4 +++-
- 2 file changed, 7 insertions(+), 5 deletions(-)
+ 2 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/src/ctypesgen/__main__.py b/src/ctypesgen/__main__.py
 index d2c8c20..a4d6b7b 100644
@@ -31,15 +31,6 @@ diff --git a/tests/conftest.py b/tests/conftest.py
 index c77ca3a..3c92007 100644
 --- a/tests/conftest.py
 +++ b/tests/conftest.py
-@@ -17,7 +17,7 @@
- TMP_DIR = TEST_DIR/"tmp"
- 
- CLEANUP_OK = bool(int(os.environ.get("CLEANUP_OK", "1")))
--MAIN_CPP = os.environ.get("CPP", None)
-+MAIN_CPP = os.environ.get("CC")
- 
- 
- def _remove_tmpdir():
 @@ -130,9 +130,9 @@ def _create_common_files():
  
  
