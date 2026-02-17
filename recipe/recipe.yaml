@@ -1,0 +1,66 @@
+schema_version: 1
+
+context:
+  name: ctypesgen-pypdfium2-team
+  version: 1.1.1
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/pypdfium2-team/ctypesgen/archive/ebd495b1733b60132151154d6358fd1eb336a36a.tar.gz
+  sha256: e1598e7be8892427f1ab2e5dba20a58418106676183455078330d2fd018ee411
+  patches:
+    - gcc.patch
+
+build:
+  number: 3
+  noarch: python
+  script: SETUPTOOLS_SCM_PRETEND_VERSION=${{ version }} ${{ PYTHON }} -m pip install . -vv
+  python:
+    entry_points:
+      - ctypesgen = ctypesgen.__main__:main
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - setuptools
+    - setuptools-scm
+    - wheel
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - files:
+      source:
+        - if: linux
+          then: tests/
+    requirements:
+      run:
+        - ${{ compiler('c') }}
+        - pip
+        - if: linux
+          then: pytest
+        - python ${{ python_min }}.*
+    script:
+      - python -m pip check
+      - python -m pip show ctypesgen
+      - if: linux
+        then: python -m pytest tests/testsuite.py
+      - ctypesgen --help
+
+about:
+  summary: ctypesgen is a ctypes wrapper generator for Python.
+  description: |
+    This is a fork with the objective to better suit the needs of pypdfium2, and address some
+    of the technical debt and (in our opinion) design issues that have accumulated due to
+    highly conservative maintenance.
+  license: BSD-2-Clause
+  license_file: LICENSE
+  homepage: https://github.com/pypdfium2-team/ctypesgen
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
