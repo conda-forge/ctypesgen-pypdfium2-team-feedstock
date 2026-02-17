@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: ctypesgen-pypdfium2-team
-  version: 1.1.1
+  version: 5.4.0
 
 package:
   name: ${{ name|lower }}
@@ -15,7 +15,7 @@ source:
     - gcc.patch
 
 build:
-  number: 3
+  number: 0
   noarch: python
   script: SETUPTOOLS_SCM_PRETEND_VERSION=${{ version }} ${{ PYTHON }} -m pip install . -vv
   python:
