@@ -9,8 +9,8 @@ package:
   version: ${{ version }}
 
 source:
-  url: https://github.com/pypdfium2-team/ctypesgen/archive/ebd495b1733b60132151154d6358fd1eb336a36a.tar.gz
-  sha256: e1598e7be8892427f1ab2e5dba20a58418106676183455078330d2fd018ee411
+  url: https://github.com/pypdfium2-team/ctypesgen/archive/78edc2c0df793456ed40c058701aba6b2c295ddc.tar.gz
+  sha256: 8dc1fb32d68cb10af2a0536bd0911a3d29f0f05df5c86b38698a22abcab2e77d
   patches:
     - gcc.patch
 
