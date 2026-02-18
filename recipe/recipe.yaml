@@ -17,7 +17,7 @@ source:
 build:
   number: 0
   noarch: python
-  script: SETUPTOOLS_SCM_PRETEND_VERSION=${{ version }} ${{ PYTHON }} -m pip install . -vv
+  script: SETUPTOOLS_SCM_PRETEND_VERSION=${{ version }} ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   python:
     entry_points:
       - ctypesgen = ctypesgen.__main__:main
@@ -33,23 +33,26 @@ requirements:
     - python >=${{ python_min }}
 
 tests:
-  - files:
+  - python:
+      python_version: ${{ python_min }}.*
+      imports:
+        - ctypesgen
+      pip_check: true
+  - script:
+      - ctypesgen --help
+    requirements:
+      run:
+        - python ${{ python_min }}.*
+  - script:
+      - python -m pytest tests/testsuite.py
+    files:
       source:
-        - if: linux
-          then: tests/
+        - tests/
     requirements:
       run:
         - ${{ compiler('c') }}
-        - pip
-        - if: linux
-          then: pytest
+        - pytest
         - python ${{ python_min }}.*
-    script:
-      - python -m pip check
-      - python -m pip show ctypesgen
-      - if: linux
-        then: python -m pytest tests/testsuite.py
-      - ctypesgen --help
 
 about:
   summary: ctypesgen is a ctypes wrapper generator for Python.
